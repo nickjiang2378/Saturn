@@ -28,7 +28,17 @@ export default function RegisterScreen({ navigation }) {
       return
     }
 
-    
+    firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
+    .then((userCredential) => {
+      // Signed in 
+      var user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ..
+    });
 
     navigation.reset({
       index: 0,
