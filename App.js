@@ -1,3 +1,25 @@
+import { StatusBar } from 'expo-status-bar';
+// import React from 'react';
+import { StyleSheet, Text, View, SafeAreaView} from 'react-native';
+import MainStack from './screens/MainStack';
+import HomeScreen from "./screens/HomeScreen/HomeScreen";
+import DetailsScreen from "./screens/DetailsScreen/DetailsScreen";
+// import { NavigationContainer } from '@react-navigation/native';
+
+// export default function App() {
+//   return (
+//     <MainStack />
+//   );
+// }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 import React from 'react'
 import { Provider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native'
@@ -41,7 +63,7 @@ export default function App() {
     <Provider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="StartScreen"
+          initialRouteName="HomeScreen"
           screenOptions={{
             headerShown: false,
           }}
@@ -53,6 +75,15 @@ export default function App() {
           <Stack.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}
+          />
+          <Stack.Screen
+              name="HomeScreen"
+              component={HomeScreen}
+          />
+          <Stack.Screen
+              name="DetailsScreen"
+              options={{"title": "Details"}}
+              component={DetailsScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
