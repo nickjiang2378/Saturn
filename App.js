@@ -1,46 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
 // import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView} from 'react-native';
-import MainStack from './screens/MainStack';
-import HomeScreen from "./screens/HomeScreen/HomeScreen";
-import DetailsScreen from "./screens/DetailsScreen/DetailsScreen";
-// import { NavigationContainer } from '@react-navigation/native';
-
-// export default function App() {
-//   return (
-//     <MainStack />
-//   );
-// }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 import React from 'react'
-import { Provider } from 'react-native-paper'
+import { Provider as PaperProvider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { theme } from './src/core/theme'
-import {
-  StartScreen,
-  LoginScreen,
-  RegisterScreen,
-  ResetPasswordScreen,
-  Dashboard,
-} from './src/screens'
+import RootStackScreen from './src/screens/RootStackScreen'
+import firebase from "firebase";
+
+const firebaseConfig = require("./keys.json");
+
+if (firebase.apps.length == 0) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const Stack = createStackNavigator()
 
 export default function App() {
   return (
+    <PaperProvider theme={theme}>
+      <RootStackScreen />
+    </PaperProvider>
+  );
+  /*return (
     <Provider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="HomeScreen"
+          initialRouteName="StartScreen"
           screenOptions={{
             headerShown: false,
           }}
@@ -65,5 +52,13 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
-  )
+  )*/
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

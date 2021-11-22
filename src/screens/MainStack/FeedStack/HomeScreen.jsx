@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { IconButton, Colors, Headline, Card, Title } from "react-native-paper"; 
-import { styles } from "../../AppStyles"
+import { styles } from "../AppStyles"
+import { logoutUser } from "../../../helpers/auth"
+import Button from '../../../components/Button'
 
 export default function HomeScreen({ navigation }) {
     // temporary
@@ -82,6 +84,12 @@ export default function HomeScreen({ navigation }) {
                     data={grants}
                     keyExtractor={(_, index) => "key-" + index}
                 />
+                <Button
+                    mode="outlined"
+                    onPress={logoutUser}
+                    >
+                    Logout
+                </Button>
             </View>
        </SafeAreaView>
     );

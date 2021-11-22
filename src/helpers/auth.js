@@ -2,14 +2,17 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 export const logoutUser = () => {
-  // TODO: Log user out
+  firebase.auth().signOut().then(() => {
+    console.log("Sign out successful")
+  }).catch((error) => {
+    console.log("Error")
+  });
 }
 
-export const signUpUser = async ({ name, email, password }) => {
+export const signUpUser = async ({ email, password }) => {
   // Always use a try-catch block to handle authentication. 
   // This is because of the data flow, error messages, etc. that we can receive
   try {
-    let auth = getAuth();
     let user;
     await firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
       // Signed in 
@@ -33,18 +36,50 @@ export const signUpUser = async ({ name, email, password }) => {
 
     return { user }
   } catch (error) {
-    // TODO: Return the error message
-    // Hint: error is an object
+
+    console.log(error)
 
   }
 }
 
 export const loginUser = async ({ email, password }) => {
-  // TODO: Log a user in with email and password
-  // Hint: The structure is similar to signUpUser(...)
 
+  console.log("Logging in user")
+  try {
+    let user;
+    return await firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
+      // Signed in 
+      user = userCredential.user;
+      console.log('User account signed in!');
+      return "Success"
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode)
+  
+      console.error(error);
+
+      return errorCode
+    });;
+
+  } catch (error) {
+
+    console.log(error)
+
+  }
 }
 
-export const sendEmailWithPassword = async (email) => {
-  // TODO: When user click on button, your app should send a reset password to the user's email
+export const resetPassword = async (email) => {
+  console.log("Sending reset email")
+  return await firebase.auth().sendPasswordResetEmail(email)
+  .then(() => {
+    console.log("Password Reset Email sent")
+    return "Success"
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    return errorCode
+  });
 }

@@ -1,19 +1,22 @@
 import React, { useState } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import Background from '../components/Background'
-import Logo from '../components/Logo'
-import Header from '../components/Header'
-import Button from '../components/Button'
-import TextInput from '../components/TextInput'
-import BackButton from '../components/BackButton'
-import { theme } from '../core/theme'
-import { emailValidator } from '../helpers/emailValidator'
-import { passwordValidator } from '../helpers/passwordValidator'
+import Background from '../../components/Background'
+import Logo from '../../components/Logo'
+import Header from '../../components/Header'
+import Button from '../../components/Button'
+import TextInput from '../../components/TextInput'
+import BackButton from '../../components/BackButton'
+import { theme } from '../../core/theme'
+import { emailValidator } from '../../helpers/emailValidator'
+import { passwordValidator } from '../../helpers/passwordValidator'
+import { loginUser } from '../../helpers/auth'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
+  const [errorMessage, setErrorMessage] = useState("")
+  const [loading, setLoading] = useState(false);
 
   const onLoginPressed = () => {
     const emailError = emailValidator(email.value)
@@ -22,11 +25,14 @@ export default function LoginScreen({ navigation }) {
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
       return
+    } else {
+      setLoading(true)
+      loginUser({ "email": email.value, "password": password.value }).then((code) => {
+        if (code == "auth/user-not-found") {
+          setErrorMessage("Invalid credentials.")
+        }
+      })
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
   }
 
   return (
@@ -34,6 +40,10 @@ export default function LoginScreen({ navigation }) {
       <BackButton goBack={navigation.goBack} />
       <Logo />
       <Header>Welcome back.</Header>
+      {(errorMessage) ? 
+        <View style={{justifyContent: "center"}}>
+          <Text style={{color: "tomato"}}>{errorMessage}</Text>
+        </View> : null}
       <TextInput
         label="Email"
         returnKeyType="next"
@@ -62,7 +72,11 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
+      <Button 
+        mode="contained" 
+        onPress={onLoginPressed}
+        loading={loading}
+      >
         Login
       </Button>
       <View style={styles.row}>

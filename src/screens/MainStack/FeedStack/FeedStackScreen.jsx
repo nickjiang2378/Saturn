@@ -2,25 +2,25 @@ import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./HomeScreen/HomeScreen";
-import DetailsScreen from "./DetailsScreen/DetailsScreen";
+import HomeScreen from "./HomeScreen";
+import DetailsScreen from "./DetailsScreen";
 
-const MainStackNavigator = createNativeStackNavigator();
+const FeedStackNavigator = createNativeStackNavigator();
 
-export default function MainStack() {
+export default function FeedStackScreen() {
     return (
         <NavigationContainer>
-            <MainStackNavigator.Navigator>
-                <MainStackNavigator.Screen
+            <FeedStackNavigator.Navigator>
+                <FeedStackNavigator.Screen
                     name="HomeScreen"
                     component={HomeScreen}
                 />
-                <MainStackNavigator.Screen
+                <FeedStackNavigator.Screen
                     name="DetailsScreen"
                     options={{"title": "Details"}}
                     component={DetailsScreen}
                 />
-            </MainStackNavigator.Navigator>
+            </FeedStackNavigator.Navigator>
         </NavigationContainer>
         
     );
