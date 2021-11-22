@@ -15,8 +15,6 @@ if (firebase.apps.length == 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
-const Stack = createStackNavigator()
-
 export default function App() {
   return (
     <PaperProvider theme={theme}>
