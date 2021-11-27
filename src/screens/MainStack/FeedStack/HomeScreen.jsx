@@ -2,10 +2,11 @@ import React, {useState, useEffect} from "react";
 import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { IconButton, Colors, Headline, Card, Title } from "react-native-paper"; 
 import { styles } from "../AppStyles"
-import { logoutUser } from "../../../helpers/auth"
 import Button from '../../../components/Button'
+import { FontAwesome5 } from '@expo/vector-icons';
+import { theme } from "../../../core/theme";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, userInfo }) {
     // temporary
     const grants = [
         {
@@ -24,16 +25,12 @@ export default function HomeScreen({ navigation }) {
 
     useEffect(() => {
         navigation.setOptions({
-            headerLeft: () => (<IconButton 
-                            icon="dots-horizontal"
-                            onPress={() => {console.log("Moving to profile screen")}}
-                        />),
             headerRight: () => (<IconButton 
                             icon="magnify"
                             onPress={() => {console.log("Moving to search screen")}}
                         />),
-            title: "Saturn",
         })
+
     }, [])
 
     function renderGrants({ item }) {
@@ -45,30 +42,25 @@ export default function HomeScreen({ navigation }) {
                     navigation.navigate("DetailsScreen", item)
                 }}
             >
-                <View style={{flexDirection: "row", alignItems: "baseline"}}>
+                <View style={{flexDirection: "row", alignItems: "center"}}>
                     <Card.Title 
-                                title={name}
-                                style={{flex: 4}}
-                            />
-                    <View style={{flex: 1}}>
-                        <Card.Content>
-                            <Text>{deadline}</Text> 
-                        </Card.Content>
+                        title={name}
+                        style={{flex: 4}}
+                    />
+                    <View style={{flex: 1, flexDirection: "row", alignItems: "center"}}>
+                            <FontAwesome5 name="calendar" size={15} color="black" />
+                            <Text style={{ marginLeft: 5 }}>{deadline}</Text> 
                     </View>
                 </View>
                 
-                <View style={{flexDirection: "row", paddingBottom: 10}}>
-                    <View style={{flex: 1.5}}>
+                <View style={{flexDirection: "row", paddingBottom: 10, alignItems: "center"}}>
+                    <Card.Content style={{ flex: 1.5, padding: 10}}>
+                        <Text>Provider: {provider}</Text>
+                    </Card.Content> 
 
-                        <Card.Content style={{padding: 10}}>
-                            <Text>Provider: {provider}</Text>
-                        </Card.Content> 
-                    </View>
-                    <View style={{flex: 1}}>
-                        <Card.Content style={{padding: 10}}>
-                            <Text style={{textAlign: "right"}}>${amount}</Text>
-                        </Card.Content>
-                    </View>
+                    <Card.Content style={{flex: 1, padding: 10}}>
+                        <Text style={{textAlign: "right"}}>${amount}</Text>
+                    </Card.Content>
                 </View>
                 
             </Card>
@@ -84,12 +76,6 @@ export default function HomeScreen({ navigation }) {
                     data={grants}
                     keyExtractor={(_, index) => "key-" + index}
                 />
-                <Button
-                    mode="outlined"
-                    onPress={logoutUser}
-                    >
-                    Logout
-                </Button>
             </View>
        </SafeAreaView>
     );
