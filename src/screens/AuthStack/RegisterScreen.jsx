@@ -16,6 +16,7 @@ export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
   const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onSignUpPressed = () => {
     const emailError = emailValidator(email.value)
@@ -27,8 +28,13 @@ export default function RegisterScreen({ navigation }) {
     } else {
       console.log("Email: ", email.value)
       setLoading(true)
-      signUpUser({ "email": email.value, "password": password.value }).then(() => {
-        //setLoading(false)
+      signUpUser({ "email": email.value, "password": password.value }).then((val) => {
+        if (val != "Success") {
+          setLoading(false)
+        }
+        if (val == "auth/email-already-in-use") {
+          setErrorMessage("Email address already used by someone else!")
+        }
       })
     }
   }
@@ -38,6 +44,10 @@ export default function RegisterScreen({ navigation }) {
       <BackButton goBack={navigation.goBack} />
       <Logo />
       <Header>Create Account</Header>
+      {(errorMessage) ? 
+        <View style={{justifyContent: "center"}}>
+          <Text style={{color: "tomato"}}>{errorMessage}</Text>
+        </View> : null}
       <TextInput
         label="Email"
         returnKeyType="next"

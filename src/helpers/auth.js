@@ -14,10 +14,11 @@ export const signUpUser = async ({ email, password }) => {
   // This is because of the data flow, error messages, etc. that we can receive
   try {
     let user;
-    await firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
+    return await firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
       // Signed in 
       user = userCredential.user;
       console.log('User account created & signed in!');
+      return "Success"
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -31,10 +32,10 @@ export const signUpUser = async ({ email, password }) => {
         console.log('That email address is invalid!');
       }
   
-      console.error(error);
+      //console.error(error);
+      return errorCode
     });;
 
-    return { user }
   } catch (error) {
 
     console.log(error)

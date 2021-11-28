@@ -23,16 +23,6 @@ export default function HomeScreen({ navigation, userInfo }) {
         }
     ]
 
-    useEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (<IconButton 
-                            icon="magnify"
-                            onPress={() => {console.log("Moving to search screen")}}
-                        />),
-        })
-
-    }, [])
-
     function renderGrants({ item }) {
         const { name, provider, amount, deadline } = item;
         return (
@@ -74,6 +64,7 @@ export default function HomeScreen({ navigation, userInfo }) {
                 <FlatList 
                     renderItem={renderGrants}
                     data={grants}
+                    style={{height: "97%"}}
                     keyExtractor={(_, index) => "key-" + index}
                 />
             </View>

@@ -3,7 +3,7 @@ import { View, SafeAreaView } from "react-native"
 import { BottomNavigation, Text, Title } from 'react-native-paper';
 import FeedStackScreen from "./FeedStack/FeedStackScreen"
 import ProfileStackScreen from "./ProfileStack/ProfileStackScreen";
-import ProfileUpdateScreen from "./ProfileStack/ProfileUpdateScreen"
+import BrowseStackScreen from './BrowseStack/BrowseStackScreen';
 import firebase from "firebase";
 import "firebase/firestore";
 
@@ -12,6 +12,7 @@ export default function MainStackScreen() {
     const [routes, setRoutes] = useState([
         { key: 'feed', title: 'Top Grants', icon: 'fire' },
         { key: 'profile', title: "Profile", icon: "account"},
+        { key: 'browse', title: 'Browse', icon: 'bookshelf'}
     ]);
     const [userInfo, setUserInfo] = useState();
     const [initializing, setInitializing] = useState(true);
@@ -20,6 +21,7 @@ export default function MainStackScreen() {
     const renderScene = BottomNavigation.SceneMap({
             feed: () => (<FeedStackScreen userInfo={userInfo}/>),
             profile: () => (<ProfileStackScreen userInfo={userInfo} />),
+            browse: () => (<BrowseStackScreen />)
         });
 
     useEffect(() => {
