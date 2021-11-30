@@ -9,22 +9,6 @@ import firebase from "firebase";
 import { getDifInDate, stringToDate } from "../../../helpers/utils";
 
 export default function HomeScreen({ navigation, recommendedGrants }) {
-    // temporary
-    const grants = [
-        {
-            name: "Food Bank Opportunity",
-            provider: "MDB",
-            amount: "1000 - 2000",
-            deadline: "11/2"
-        },
-        {
-            name: "Food Bank 2",
-            provider: "MDB_AlterEgo",
-            amount: "1000-2000",
-            deadline: "11/2"
-        }
-    ]
-
 
     function renderGrants({ item }) {
         let { OpportunityTitle, AgencyName, AwardFloor, AwardCeiling, CloseDate } = item;
