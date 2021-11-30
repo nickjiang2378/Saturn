@@ -4,8 +4,9 @@ import { Button, TextInput, Snackbar } from "react-native-paper";
 import firebase from "firebase";
 import { styles } from "../AppStyles"
 import { theme } from "../../../core/theme"
+import Dropdown from "../../../components/Dropdown"
 
-export default function ProfileScreenCreate( { navigation, userObj }) {
+export default function ProfileScreenUpdate( { navigation, userObj }) {
     const [orgName, setOrgName] = useState("");
     const [category, setCategory] = useState("");
     const [loading, setLoading] = useState(false);
@@ -91,6 +92,10 @@ export default function ProfileScreenCreate( { navigation, userObj }) {
           }
     };
 
+    useEffect(() => {
+        console.log(category)
+    }, [category])
+
     return (
         <SafeAreaView style={styles.container}>
             <View style = {{ margin: 20 }}>
@@ -102,23 +107,19 @@ export default function ProfileScreenCreate( { navigation, userObj }) {
                     style = {{ backgroundColor: theme.colors.backgroundGrey, marginBottom: 15 }}
                 />
                 <TextInput
-                    label = "Category"
-                    value = {category}
-                    onChangeText = {(cat) => setCategory(cat)}
-                    style = {{ backgroundColor: theme.colors.backgroundGrey, marginBottom: 15 }}
-                />
-                <TextInput
                     label = "Location"
                     value = {location}
                     onChangeText = {(loc) => setLocation(loc)}
                     style = {{ backgroundColor: theme.colors.backgroundGrey, marginBottom: 15 }}
                 />
+                <Dropdown category={category} setCategory={setCategory}/>
                 <View style={ {flexDirection: "row", alignItems: "center"} }>
                     <Text style={ {marginRight: 5} }>Target Grant: </Text>
                     <TextInput
                         label = "Min"
                         value = {minGrantTarget}
                         onChangeText = {(num) => setMinGrantTarget(num)}
+                        left={<TextInput.Affix text="$" />}
                         style = {{ flex: 1, backgroundColor: theme.colors.backgroundGrey, marginBottom: 15 }}
                     />
                     <Text style={{ marginLeft: 5, marginRight: 5 }}>-</Text>
@@ -126,6 +127,7 @@ export default function ProfileScreenCreate( { navigation, userObj }) {
                         label = "Max"
                         value = {maxGrantTarget}
                         onChangeText = {(num) => setMaxGrantTarget(num)}
+                        left={<TextInput.Affix text="$" />}
                         style = {{ flex: 1, backgroundColor: theme.colors.backgroundGrey, marginBottom: 10 }}
                     />
                 </View>

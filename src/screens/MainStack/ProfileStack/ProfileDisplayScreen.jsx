@@ -6,6 +6,7 @@ import { styles } from "../AppStyles"
 import { theme } from "../../../core/theme"
 import Button from '../../../components/Button'
 import { logoutUser } from "../../../helpers/auth"
+import { codeToCategory } from "../../../helpers/categories";
 
 export default function ProfileDisplayScreen({ navigation, userInfo }) {
     const [orgName, setOrgName] = useState("");
@@ -38,7 +39,7 @@ export default function ProfileDisplayScreen({ navigation, userInfo }) {
             <View style={{padding: 20}}>
                 <View style={{alignItems: "center", marginBottom: 30}}>
                     <Title>{orgName}</Title>
-                    <Caption>{category}</Caption>
+                    <Caption>{codeToCategory(category)}</Caption>
                     <View style={{flexDirection: "row", alignItems: "center"}}>
                         <Entypo name="location-pin" size={24} color={theme.colors.primary} />
                         <Text>{location}</Text>

@@ -3,10 +3,12 @@ import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableOpacity } from
 import { IconButton, Colors, Headline, Card, Title } from "react-native-paper"; 
 import { styles } from "../AppStyles"
 import Button from '../../../components/Button'
-import { FontAwesome5 } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { theme } from "../../../core/theme";
+import firebase from "firebase";
+import { getDifInDate, stringToDate } from "../../../helpers/utils";
 
-export default function HomeScreen({ navigation, userInfo }) {
+export default function HomeScreen({ navigation, recommendedGrants }) {
     // temporary
     const grants = [
         {
@@ -23,8 +25,18 @@ export default function HomeScreen({ navigation, userInfo }) {
         }
     ]
 
+
     function renderGrants({ item }) {
-        const { name, provider, amount, deadline } = item;
+        let { OpportunityTitle, AgencyName, AwardFloor, AwardCeiling, CloseDate } = item;
+        let grantRange = null;
+        AwardFloor = parseInt(AwardFloor), AwardCeiling = parseInt(AwardCeiling)
+        if (AwardFloor && AwardCeiling) {
+            grantRange = `\$${AwardFloor} - ${AwardCeiling}`
+        } else if (AwardFloor) {
+            grantRange = `\$${AwardFloor}+`
+        } else if (AwardCeiling) {
+            grantRange = `\$0 - ${AwardCeiling}`
+        }
         return (
             <Card 
                 style={{marginTop: 10, marginBottom: 10, borderRadius: 10}}
@@ -34,23 +46,23 @@ export default function HomeScreen({ navigation, userInfo }) {
             >
                 <View style={{flexDirection: "row", alignItems: "center"}}>
                     <Card.Title 
-                        title={name}
-                        style={{flex: 4}}
+                        title={OpportunityTitle}
+                        style={{flex: 1}}
                     />
-                    <View style={{flex: 1, flexDirection: "row", alignItems: "center"}}>
-                            <FontAwesome5 name="calendar" size={15} color="black" />
-                            <Text style={{ marginLeft: 5 }}>{deadline}</Text> 
+                    <View style={{flexDirection: "row", padding: 15, alignItems: "center", justifyContent: "flex-end"}}>
+                            <Entypo name="stopwatch" size={18} color={theme.colors.primary} />
+                            <Text style={{ marginLeft: 5 }}>{getDifInDate(stringToDate(CloseDate).DateObj)}</Text> 
                     </View>
                 </View>
                 
                 <View style={{flexDirection: "row", paddingBottom: 10, alignItems: "center"}}>
-                    <Card.Content style={{ flex: 1.5, padding: 10}}>
-                        <Text>Provider: {provider}</Text>
+                    <Card.Content style={{ flex: 1, padding: 15}}>
+                        <Text>{AgencyName}</Text>
                     </Card.Content> 
 
-                    <Card.Content style={{flex: 1, padding: 10}}>
-                        <Text style={{textAlign: "right"}}>${amount}</Text>
-                    </Card.Content>
+                    <View style={{padding: 10, alignItems: "flex-end"}}>
+                        <Text>{grantRange}</Text>
+                    </View>
                 </View>
                 
             </Card>
@@ -63,7 +75,7 @@ export default function HomeScreen({ navigation, userInfo }) {
                 <Headline>Top Picks for You</Headline>
                 <FlatList 
                     renderItem={renderGrants}
-                    data={grants}
+                    data={recommendedGrants}
                     style={{height: "97%"}}
                     keyExtractor={(_, index) => "key-" + index}
                 />

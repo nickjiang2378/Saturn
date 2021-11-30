@@ -7,9 +7,10 @@ import DetailsScreen from "./DetailsScreen";
 
 const FeedStackNavigator = createNativeStackNavigator();
 
-export default function FeedStackScreen({ userInfo }) {
+export default function FeedStackScreen({ recommendedGrants }) {
     console.log("===== FeedStackScreen =====")
-    console.log(userInfo)
+    //console.log(userInfo)
+    console.log(recommendedGrants)
     return (
         <NavigationContainer>
             <FeedStackNavigator.Navigator>
@@ -17,7 +18,7 @@ export default function FeedStackScreen({ userInfo }) {
                     name="HomeScreen"
                     options={{"title": "Saturn"}}
                 >
-                    {(props) => {return (<HomeScreen {...props} userInfo={userInfo} />);}}
+                    {(props) => {return (<HomeScreen {...props} recommendedGrants={recommendedGrants} />);}}
                 </FeedStackNavigator.Screen>
                 <FeedStackNavigator.Screen
                     name="DetailsScreen"

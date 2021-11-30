@@ -16,41 +16,12 @@ if (firebase.apps.length == 0) {
 }
 
 export default function App() {
+
   return (
     <PaperProvider theme={theme}>
       <RootStackScreen />
     </PaperProvider>
   );
-  /*return (
-    <Provider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="StartScreen"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="StartScreen" component={StartScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen
-            name="ResetPasswordScreen"
-            component={ResetPasswordScreen}
-          />
-          <Stack.Screen
-              name="HomeScreen"
-              component={HomeScreen}
-          />
-          <Stack.Screen
-              name="DetailsScreen"
-              options={{"title": "Details"}}
-              component={DetailsScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
-  )*/
 }
 const styles = StyleSheet.create({
   container: {
