@@ -26,6 +26,10 @@ export function filter(grants, searchRequest) {
             }
 
         }
+        const currentDate = new Date();
+        if (include && searchRequest["removePast"] && stringToDate(grant["CloseDate"]).DateObj - currentDate < 0) {
+            include = false;
+        }
         if (include) {
             filteredGrants.push(grant)
         }

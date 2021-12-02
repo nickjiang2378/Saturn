@@ -73,8 +73,9 @@ export default function MainStackScreen() {
         if (Object.keys(userInfo).length != 0 && Object.keys(allGrants).length != 0) {
             console.log("New user info")
             console.log(userInfo)
+            const considerCloud = false;
             let recGrants = [];
-            if (userInfo.recommendedGrants) {
+            if (userInfo.recommendedGrants && considerCloud) {
                 for (const grantID of userInfo.recommendedGrants) {
                     recGrants.push(allGrants[grantID])
                 }
@@ -89,7 +90,8 @@ export default function MainStackScreen() {
                     category: userInfo["category"],
                     maxGrantTarget: userInfo["maxGrantTarget"],
                     minGrantTarget: userInfo["minGrantTarget"],
-                    sortBy: "CloseDate"
+                    sortBy: "CloseDate",
+                    removePast: true
                 }).slice(0, 10)
                 console.log(`${recGrants.length} recommended grants collected`)
             }
