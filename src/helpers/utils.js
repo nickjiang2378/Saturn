@@ -61,7 +61,7 @@ export function getDifInDate(date) {
     if (years > 0) {
         message = years + "yr"
     } else if (months > 0) {
-        message = months + "m"
+        message = months + "mo"
     } else if (weeks > 0) {
         message = weeks + "wk"
     } else if (days > 0) {
