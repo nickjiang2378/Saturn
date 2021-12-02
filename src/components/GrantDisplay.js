@@ -7,6 +7,7 @@ import { stringToDate } from "../helpers/utils";
 import { Linking } from 'react-native';
 import { theme } from "../core/theme";
 import { Entypo } from '@expo/vector-icons';
+import { WebView } from 'react-native-webview';
 
 export default function GrantDisplay({ grantPackage }) {
     
@@ -40,30 +41,31 @@ export default function GrantDisplay({ grantPackage }) {
 
        <SafeAreaView style={styles.container}>
        <ScrollView style={{padding: 20}}>
-           <View style={{alignItems: "center", marginBottom: 30}}>
-               <Title>{grantInfo["OpportunityTitle"]}</Title>
-               <Caption>{grantInfo["AgencyName"]}</Caption>
-               <View style={{flexDirection: "row", alignItems: "center"}}>
-                    <Entypo name="stopwatch" size={18} color={theme.colors.primary} />
-                   <Text style={{ marginLeft: 5 }}>{deadline}</Text>
-               </View>
-               <View style={{flexDirection: "row", alignItems: "center"}}>
-                   <Text>${grantInfo["AwardFloor"]} - {grantInfo["AwardCeiling"]}</Text>
-               </View>
-               <Text style={{color: 'blue'}}
-                    onPress={() => Linking.openURL('https://www.grants.gov/web/grants/view-opportunity.html?oppId=' + grantInfo["OpportunityID"])}>
-                See Source
-                </Text>
+            <View style={{alignItems: "center", marginBottom: 30}}>
+                <Title>{grantInfo["OpportunityTitle"]}</Title>
+                <Caption>{grantInfo["AgencyName"]}</Caption>
+                <View style={{flexDirection: "row", alignItems: "center"}}>
+                        <Entypo name="stopwatch" size={18} color={theme.colors.primary} />
+                    <Text style={{ marginLeft: 5 }}>{deadline}</Text>
+                </View>
+                <View style={{flexDirection: "row", alignItems: "center"}}>
+                    <Text>${grantInfo["AwardFloor"]} - {grantInfo["AwardCeiling"]}</Text>
+                </View>
+                <Text style={{color: 'blue'}}
+                        onPress={() => Linking.openURL('https://www.grants.gov/web/grants/view-opportunity.html?oppId=' + grantInfo["OpportunityID"])}>
+                    See Source
+                    </Text>
 
-           </View>
-           <Text>{grantInfo["Description"]}</Text>
-           <Divider style={{ marginTop: 10, marginBottom: 10 }}/>
-           <Title>Specifics on Grant</Title>
-           <Text style={stylesDetailsScreen.textDetail}>{(grantCategory) ? `Category: ${grantCategory}` : null}</Text>
-           <Text style={stylesDetailsScreen.textDetail}>{(grantPostDate) ? `Posted Date: ${grantPostDate}` : null}</Text>
-           <Text style={stylesDetailsScreen.textDetail}>{grantQuestions ? grantQuestions : null}</Text>
+            </View>
 
-           <View style={{ marginBottom: 20 }}></View>
+            <Text>{grantInfo["Description"]}</Text>
+            <Divider style={{ marginTop: 10, marginBottom: 10 }}/>
+            <Title>Specifics on Grant</Title>
+            <Text style={stylesDetailsScreen.textDetail}>{(grantCategory) ? `Category: ${grantCategory}` : null}</Text>
+            <Text style={stylesDetailsScreen.textDetail}>{(grantPostDate) ? `Posted Date: ${grantPostDate}` : null}</Text>
+            <Text style={stylesDetailsScreen.textDetail}>{grantQuestions ? grantQuestions : null}</Text>
+
+            <View style={{ marginBottom: 20 }}></View>
 
 
        </ScrollView>
