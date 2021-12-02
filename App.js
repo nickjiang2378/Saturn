@@ -8,7 +8,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { theme } from './src/core/theme'
 import RootStackScreen from './src/screens/RootStackScreen'
 import firebase from "firebase";
-import Web from "./experimental/web"
 
 const firebaseConfig = require("./keys.json");
 

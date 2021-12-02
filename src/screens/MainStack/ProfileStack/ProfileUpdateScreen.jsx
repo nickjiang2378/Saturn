@@ -50,9 +50,6 @@ export default function ProfileScreenUpdate( { navigation, userObj }) {
             // isNan() -> true = NOT a number, false = is a number
             showError("Only numbers are allowed for the grant range.");
             return;
-          } else if (minGrantTarget > maxGrantTarget) {
-            showError("Maximum grant amount must be greater than the minimum!")
-            return;
           } else if (!location) {
             showError("Please enter the location that you are based in.");
             return;
