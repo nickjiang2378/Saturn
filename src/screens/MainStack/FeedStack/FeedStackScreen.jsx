@@ -10,7 +10,7 @@ const FeedStackNavigator = createNativeStackNavigator();
 export default function FeedStackScreen({ recommendedGrants }) {
     console.log("===== FeedStackScreen =====")
     //console.log(userInfo)
-    console.log(recommendedGrants)
+    //console.log(recommendedGrants)
     return (
         <NavigationContainer>
             <FeedStackNavigator.Navigator>

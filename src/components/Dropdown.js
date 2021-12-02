@@ -6,9 +6,8 @@ import { TouchableRipple } from "react-native-paper";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { MaterialIcons } from '@expo/vector-icons';
 import { theme } from "../core/theme"
-import { allCategories, categoryToCode, codeToCategory } from '../helpers/categories';
 
-export default function DropdownComponent({ category, setCategory }) {
+export default function DropdownComponent({ value, setValue, ...props }) {
   //const [value, setValue] = useState(null);
 
   const renderItem = (item) => {
@@ -27,29 +26,22 @@ export default function DropdownComponent({ category, setCategory }) {
       selectedTextStyle={styles.selectedTextStyle}
       inputSearchStyle={styles.inputSearchStyle}
       iconStyle={styles.iconStyle}
-      data={allCategories}
-      search
       maxHeight={300}
       labelField="label"
       valueField="value"
-      placeholder={category && codeToCategory(category) ? codeToCategory(category) : "Select Category"}
-      searchPlaceholder="Search categories..."
-      value={category}
+      value={value}
       onChange={item => {
-        setCategory(item.value);
+        setValue(item.value);
       }}
-      renderLeftIcon={() => (
-        <MaterialIcons style={styles.icon} name="category" size={20} color={theme.colors.primary} />
-        //<AntDesign style={styles.icon} color="black" name="Safety" size={20} />
-      )}
       renderItem={renderItem}
+      {...props}
     />
   );
 };
 
 const styles = StyleSheet.create({
   dropdown: {
-    marginBottom: 15,
+    marginBottom: 20,
     height: 50,
     backgroundColor: theme.colors.backgroundGrey,
     padding: 12,

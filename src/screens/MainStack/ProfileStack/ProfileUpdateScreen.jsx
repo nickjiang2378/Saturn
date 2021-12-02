@@ -5,6 +5,8 @@ import firebase from "firebase";
 import { styles } from "../AppStyles"
 import { theme } from "../../../core/theme"
 import Dropdown from "../../../components/Dropdown"
+import { MaterialIcons } from '@expo/vector-icons';
+import { allCategories, categoryToCode, codeToCategory } from '../../../helpers/categories';
 
 export default function ProfileScreenUpdate( { navigation, userObj }) {
     const [orgName, setOrgName] = useState("");
@@ -35,7 +37,6 @@ export default function ProfileScreenUpdate( { navigation, userObj }) {
 
 
     const saveProfile = async () => {
-        console.log("Testing")
         if (!orgName) {
             showError("Please enter your organization's name.");
             return;
@@ -92,6 +93,10 @@ export default function ProfileScreenUpdate( { navigation, userObj }) {
           }
     };
 
+    const renderCategoryIcon = () => (
+        <MaterialIcons style={{ marginRight: 5 }} name="category" size={20} color={theme.colors.primary} />
+    );
+
     useEffect(() => {
         console.log(category)
     }, [category])
@@ -104,15 +109,23 @@ export default function ProfileScreenUpdate( { navigation, userObj }) {
                     label = "Organization Name"
                     value = {orgName}
                     onChangeText = {(name) => setOrgName(name)}
-                    style = {{ backgroundColor: theme.colors.backgroundGrey, marginBottom: 15 }}
+                    style = {styles.formInput}
                 />
                 <TextInput
                     label = "Location"
                     value = {location}
                     onChangeText = {(loc) => setLocation(loc)}
-                    style = {{ backgroundColor: theme.colors.backgroundGrey, marginBottom: 15 }}
+                    style = {styles.formInput}
                 />
-                <Dropdown category={category} setCategory={setCategory}/>
+                <Dropdown 
+                    renderLeftIcon={renderCategoryIcon} 
+                    value={category} 
+                    data={allCategories}
+                    setValue={setCategory}
+                    placeholder={category && codeToCategory(category) ? codeToCategory(category) : "Select Category"}
+                    search={true}
+                    searchPlaceholder="Search categories..."
+                />
                 <View style={ {flexDirection: "row", alignItems: "center"} }>
                     <Text style={ {marginRight: 5} }>Target Grant: </Text>
                     <TextInput
@@ -120,7 +133,7 @@ export default function ProfileScreenUpdate( { navigation, userObj }) {
                         value = {minGrantTarget}
                         onChangeText = {(num) => setMinGrantTarget(num)}
                         left={<TextInput.Affix text="$" />}
-                        style = {{ flex: 1, backgroundColor: theme.colors.backgroundGrey, marginBottom: 15 }}
+                        style = {{ ...styles.formInput, flex: 1 }}
                     />
                     <Text style={{ marginLeft: 5, marginRight: 5 }}>-</Text>
                     <TextInput
@@ -128,7 +141,7 @@ export default function ProfileScreenUpdate( { navigation, userObj }) {
                         value = {maxGrantTarget}
                         onChangeText = {(num) => setMaxGrantTarget(num)}
                         left={<TextInput.Affix text="$" />}
-                        style = {{ flex: 1, backgroundColor: theme.colors.backgroundGrey, marginBottom: 10 }}
+                        style = {{ ...styles.formInput, flex: 1 }}
                     />
                 </View>
                 <Button

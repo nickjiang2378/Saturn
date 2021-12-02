@@ -1,14 +1,14 @@
-import React from 'react'
-import { Image, StyleSheet } from 'react-native'
+import React from 'react';
+import { Image, StyleSheet } from 'react-native';
 
 export default function Logo() {
-  return <Image source={require('../assets/logo.png')} style={styles.image} />
+  return <Image source={require('../assets/logoSaturn.png')} style={styles.image} />
 }
 
 const styles = StyleSheet.create({
   image: {
-    width: 110,
-    height: 110,
-    marginBottom: 8,
+    width: 150,
+    height: 150,
+    resizeMode: "contain",
   },
 })

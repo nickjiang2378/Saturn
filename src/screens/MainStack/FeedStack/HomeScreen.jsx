@@ -5,53 +5,27 @@ import { styles } from "../AppStyles"
 import Button from '../../../components/Button'
 import { Entypo } from '@expo/vector-icons';
 import { theme } from "../../../core/theme";
-import firebase from "firebase";
 import { getDifInDate, stringToDate } from "../../../helpers/utils";
+import GrantCell from "../../../components/GrantCell";
 
 export default function HomeScreen({ navigation, recommendedGrants }) {
 
     function renderGrants({ item }) {
-        let { OpportunityTitle, AgencyName, AwardFloor, AwardCeiling, CloseDate } = item;
-        let grantRange = null;
-        AwardFloor = parseInt(AwardFloor), AwardCeiling = parseInt(AwardCeiling)
-        if (AwardFloor && AwardCeiling) {
-            grantRange = `\$${AwardFloor} - ${AwardCeiling}`
-        } else if (AwardFloor) {
-            grantRange = `\$${AwardFloor}+`
-        } else if (AwardCeiling) {
-            grantRange = `\$0 - ${AwardCeiling}`
-        }
         return (
-            <Card 
-                style={{marginTop: 10, marginBottom: 10, borderRadius: 10}}
+            <TouchableOpacity
                 onPress={() => {
                     navigation.navigate("DetailsScreen", item)
                 }}
             >
-                <View style={{flexDirection: "row", alignItems: "center"}}>
-                    <Card.Title 
-                        title={OpportunityTitle}
-                        style={{flex: 1}}
-                    />
-                    <View style={{flexDirection: "row", padding: 15, alignItems: "center", justifyContent: "flex-end"}}>
-                            <Entypo name="stopwatch" size={18} color={theme.colors.primary} />
-                            <Text style={{ marginLeft: 5 }}>{getDifInDate(stringToDate(CloseDate).DateObj)}</Text> 
-                    </View>
-                </View>
-                
-                <View style={{flexDirection: "row", paddingBottom: 10, alignItems: "center"}}>
-                    <Card.Content style={{ flex: 1, padding: 15}}>
-                        <Text>{AgencyName}</Text>
-                    </Card.Content> 
-
-                    <View style={{padding: 10, alignItems: "flex-end"}}>
-                        <Text>{grantRange}</Text>
-                    </View>
-                </View>
-                
-            </Card>
+                <GrantCell item={item} />
+            </TouchableOpacity>
         );
     }
+
+    const emptyList = () => (
+        <Text style={styles.emptyListText}
+        >No recommended grants at this time. Check back again later!</Text>
+    )
     
     return (
        <SafeAreaView style={styles.container}>
@@ -62,6 +36,7 @@ export default function HomeScreen({ navigation, recommendedGrants }) {
                     data={recommendedGrants}
                     style={{height: "97%"}}
                     keyExtractor={(_, index) => "key-" + index}
+                    ListEmptyComponent={emptyList}
                 />
             </View>
        </SafeAreaView>

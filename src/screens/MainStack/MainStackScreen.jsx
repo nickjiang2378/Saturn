@@ -3,9 +3,12 @@ import { View, SafeAreaView } from "react-native"
 import { BottomNavigation, Text, Title } from 'react-native-paper';
 import FeedStackScreen from "./FeedStack/FeedStackScreen"
 import ProfileStackScreen from "./ProfileStack/ProfileStackScreen";
+import ProfileUpdateScreen from "./ProfileStack/ProfileUpdateScreen";
 import BrowseStackScreen from './BrowseStack/BrowseStackScreen';
 import firebase from "firebase";
 import "firebase/firestore";
+import { filter } from "../../helpers/filter";
+import Loading from '../../components/Loading';
 
 export default function MainStackScreen() {
     const [index, setIndex] = useState(0);
@@ -44,6 +47,8 @@ export default function MainStackScreen() {
                                                 ...userData
                                             }
                                         }
+                                        console.log("User Object created")
+                                        console.log(userObj)
                                         setUserInfo(userObj);
                                         
                                     })
@@ -56,15 +61,9 @@ export default function MainStackScreen() {
                 .onSnapshot((querySnapshot) => {
                     let collectedGrants = Object();
                     querySnapshot.forEach((doc) => {
-                        //const packagedInfo = {...doc.data(), "FirestoreID": doc.id}
-                        //collectedGrants.push(packagedInfo)
                         collectedGrants[doc.id] = doc.data()
-                        /*if (userInfo.recommendedGrants.includes(doc.id)) {
-                            recGrants.push(packagedInfo)
-                        }*/
                     })
                     console.log("Extracted all grants");
-                    //setRecommendedGrants(recGrants)
                     setAllGrants(collectedGrants)
                 })
         return unsubscribe
@@ -72,42 +71,35 @@ export default function MainStackScreen() {
 
     useEffect(() => {
         if (Object.keys(userInfo).length != 0 && Object.keys(allGrants).length != 0) {
+            console.log("New user info")
+            console.log(userInfo)
             let recGrants = [];
-            for (const grantID of userInfo.recommendedGrants) {
-                recGrants.push(allGrants[grantID])
+            if (userInfo.recommendedGrants) {
+                for (const grantID of userInfo.recommendedGrants) {
+                    recGrants.push(allGrants[grantID])
+                }
+                console.log("Finished creating recommended list")
+                console.log(userInfo.recommendedGrants)
+                recGrants = filter(recGrants, {
+                    sortBy: "CloseDate"
+                })
+            } else {
+                console.log("Manually finding recommended grants")
+                recGrants = filter(Object.values(allGrants), {
+                    category: userInfo["category"],
+                    maxGrantTarget: userInfo["maxGrantTarget"],
+                    minGrantTarget: userInfo["minGrantTarget"],
+                    sortBy: "CloseDate"
+                }).slice(0, 10)
+                console.log(`${recGrants.length} recommended grants collected`)
             }
             setRecommendedGrants(recGrants)
             setInitializing(false)
         }
     }, [userInfo, allGrants])
 
-    /*useEffect(() => {
-        // Get recommended list from firestore
-        if (userInfo) {
-            firebase.firestore()
-                    .collection("grants")
-                    .get()
-                    .then((querySnapshot) => {
-                        let collectedGrants = [];
-                        let recGrants = [];
-                        querySnapshot.forEach((doc) => {
-                            const packagedInfo = {...doc.data(), "FirestoreID": doc.id}
-                            collectedGrants.push(packagedInfo)
-                            if (userInfo.recommendedGrants.includes(doc.id)) {
-                                recGrants.push(packagedInfo)
-                            }
-                        })
-                        console.log("Extracted all info");
-                        console.log(recGrants)
-                        setRecommendedGrants(recGrants)
-                        setAllGrants(collectedGrants)
-                    })
-            
-        }
-    }, [userInfo])*/
-
     if (initializing) {
-        return null
+        return <Loading text={"Fetching latest grants..."} />
     } else if (!userInfo?.orgName || !userInfo?.location || !userInfo?.category || !userInfo?.minGrantTarget || !userInfo?.maxGrantTarget) {
         console.log("Need to set up profile fully")
         return (
