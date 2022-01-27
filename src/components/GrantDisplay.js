@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
 import { styles } from "../screens/MainStack/AppStyles"
 import { Divider, Title, Caption } from "react-native-paper"; 
 import { codeToCategory } from "../helpers/categories";
-import { stringToDate } from "../helpers/utils";
+import { stringToDate, timeDifToColor } from "../helpers/utils";
 import { Linking } from 'react-native';
 import { theme } from "../core/theme";
 import { Entypo } from '@expo/vector-icons';
@@ -12,6 +12,7 @@ export default function GrantDisplay({ grantPackage }) {
     
     const [grantInfo, setGrantInfo] = useState(Object());
     const [deadline, setDeadline] = useState();
+    const [stopwatchColor, setStopwatchColor] = useState(theme.colors.primary);
 
     useEffect(() => {
         if (grantPackage) {
@@ -24,7 +25,8 @@ export default function GrantDisplay({ grantPackage }) {
             console.log("Received by GrantDisplay")
             console.log(grantInfo)
             let dateObj = stringToDate(grantInfo["CloseDate"]).DateObj;
-            setDeadline(dateObj.toDateString())
+            setDeadline(dateObj.toDateString());
+            setStopwatchColor(timeDifToColor(dateObj));
         }
     }, [grantInfo])
 
@@ -44,7 +46,7 @@ export default function GrantDisplay({ grantPackage }) {
                <Title>{grantInfo["OpportunityTitle"]}</Title>
                <Caption>{grantInfo["AgencyName"]}</Caption>
                <View style={{flexDirection: "row", alignItems: "center"}}>
-                    <Entypo name="stopwatch" size={18} color={theme.colors.primary} />
+                    <Entypo name="stopwatch" size={18} color={stopwatchColor} />
                    <Text style={{ marginLeft: 5 }}>{deadline}</Text>
                </View>
                <View style={{flexDirection: "row", alignItems: "center"}}>

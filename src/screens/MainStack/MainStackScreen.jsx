@@ -9,6 +9,7 @@ import firebase from "firebase";
 import "firebase/firestore";
 import { filter } from "../../helpers/filter";
 import Loading from '../../components/Loading';
+import { theme } from '../../core/theme';
 
 export default function MainStackScreen() {
     const [index, setIndex] = useState(0);
@@ -92,7 +93,7 @@ export default function MainStackScreen() {
                     minGrantTarget: userInfo["minGrantTarget"],
                     sortBy: "CloseDate",
                     removePast: true
-                }).slice(0, 10)
+                }).slice(0, 15)
                 console.log(`${recGrants.length} recommended grants collected`)
             }
             setRecommendedGrants(recGrants)
@@ -119,6 +120,8 @@ export default function MainStackScreen() {
                 navigationState={{ index, routes }}
                 onIndexChange={setIndex}
                 renderScene={renderScene}
+                activeColor={theme.colors.primary}
+                barStyle={{ backgroundColor: "white" }}
             />
         );
     }

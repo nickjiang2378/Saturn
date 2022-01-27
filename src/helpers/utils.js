@@ -1,3 +1,5 @@
+import { theme } from "../core/theme"
+
 export function stringToDate(string) {
     const numToMonth = {
         1: "January",
@@ -91,4 +93,17 @@ export function abbreviateNum(num) {
     }
     return num
 
+}
+
+export function timeDifToColor(deadline) {
+    let now = new Date()
+    let timeDif = deadline.getTime() - now.getTime()
+
+    if (timeDif < 0) {
+        return theme.colors.red
+    } else if (timeDif < 1000 * 60 * 60 * 24 * 14) { // meaning deadline is less than two away
+        return theme.colors.yellow
+    } else {
+        return theme.colors.green
+    }
 }

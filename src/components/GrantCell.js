@@ -4,7 +4,7 @@ import { Card } from "react-native-paper";
 import { styles } from "../screens/MainStack/AppStyles"
 import { Entypo } from '@expo/vector-icons';
 import { theme } from "../core/theme";
-import { getDifInDate, stringToDate } from "../helpers/utils";
+import { getDifInDate, stringToDate, timeDifToColor } from "../helpers/utils";
 import { abbreviateNum } from "../helpers/utils";
 
 export default function GrantCell({ item }) {
@@ -22,7 +22,9 @@ export default function GrantCell({ item }) {
     } else if (AwardCeiling) {
         grantRange = `\$0 - ${AwardCeiling}`
     }
-    let dateDif = getDifInDate(stringToDate(CloseDate).DateObj)
+    let deadline = stringToDate(CloseDate).DateObj
+    let dateDif = getDifInDate(deadline)
+    let stopwatchColor = timeDifToColor(deadline)
     return (
         <Card 
             style={{marginTop: 10, marginBottom: 10, borderRadius: 10}}
@@ -34,7 +36,7 @@ export default function GrantCell({ item }) {
                     style={{flex: 1}}
                 />
                 <View style={{flexDirection: "row", padding: 15, alignItems: "center", justifyContent: "flex-end"}}>
-                        <Entypo name="stopwatch" size={18} color={(dateDif == "Past") ? "tomato" : theme.colors.primary} />
+                        <Entypo name="stopwatch" size={18} color={stopwatchColor} />
                         <Text style={{ marginLeft: 5 }}>{dateDif}</Text> 
                 </View>
             </View>

@@ -7,6 +7,7 @@ import { theme } from "../../../core/theme"
 import Button from '../../../components/Button'
 import { logoutUser } from "../../../helpers/auth"
 import { codeToCategory } from "../../../helpers/categories";
+import { abbreviateNum } from "../../../helpers/utils";
 
 export default function ProfileDisplayScreen({ navigation, userInfo }) {
     const [orgName, setOrgName] = useState("");
@@ -26,6 +27,7 @@ export default function ProfileDisplayScreen({ navigation, userInfo }) {
         navigation.setOptions({
             "headerRight": () => (<IconButton 
                 icon="pencil"
+                color={theme.colors.primary}
                 onPress={() => {
                     console.log("Moving to Profile Update Screen"); 
                     navigation.navigate("ProfileUpdate", {"userInfo": userInfo})
@@ -45,7 +47,7 @@ export default function ProfileDisplayScreen({ navigation, userInfo }) {
                         <Text>{location}</Text>
                     </View>
                 </View>
-                <Text>Target Grant Amount: ${minGrantTarget} - {maxGrantTarget}</Text>
+                <Text>Target Grant Amount: ${abbreviateNum(minGrantTarget)} - {abbreviateNum(maxGrantTarget)}</Text>
                 <Text>Current Plan: Free</Text>
 
                 <View style={{ marginBottom: 20 }}></View>
