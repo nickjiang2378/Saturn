@@ -4,6 +4,6 @@ Saturn matches nonprofits with relevant government and foundation grants regular
 
 ## Demo
 
-Below is a demo of our prototype, which is powered by React Native and Firebase.
+Below is a demo of our prototype, which is powered by React Native and Firebase (click to play).
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/6YTDLzZ3Ihc/0.jpg)](https://www.youtube.com/watch?v=6YTDLzZ3Ihc)
